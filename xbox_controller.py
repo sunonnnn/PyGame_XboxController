@@ -11,6 +11,23 @@ class Signal:
         if self._callback is not None:
             self._callback(*args, **kwargs)
 
+"""class Signal:
+    def __init__(self):
+        self._callback = []
+
+    def connect(self, func):
+        self._callback.append(func)
+
+    def disconnect(self, func):
+        self._callback.remove(func)
+
+    def clear(self):
+        self._callback.clear()
+
+    def emit(self, *args, **kwargs):
+        for callback in self._callback:
+            callback(*args, **kwargs)"""
+
 class Controller:
     def __init__(self):
         pygame.init()
