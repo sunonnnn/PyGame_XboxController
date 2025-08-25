@@ -68,15 +68,15 @@ class Controller:
             if event.type == pygame.JOYBUTTONDOWN:
                 button_name = self.button_index.get(event.button)
                 if button_name:
-                    func = self.button_press.get(button_name)
-                    if callable(func):
-                        func()
+                    sig = self.button_press.get(button_name)
+                    if sig:
+                        sig.emit()
             elif event.type == pygame.JOYBUTTONUP:
                 button_name = self.button_index.get(event.button)
                 if button_name:
-                    func = self.button_release.get(button_name)
-                    if callable(func):
-                        func()
+                    sig = self.button_release.get(button_name)
+                    if sig:
+                        sig.emit()
 
             if event.type == pygame.JOYAXISMOTION:
                 # left stick
