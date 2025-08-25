@@ -22,8 +22,8 @@ class Controller:
         self.threshold = 0.5
 
         self.button_index = {
-            0: "B",
-            1: "A",
+            0: "A",
+            1: "B",
             2: "X",
             3: "Y",
             4: "View",
