@@ -88,6 +88,7 @@ class Controller:
                     sig = self.button_press.get(button_name)
                     if sig:
                         sig.emit()
+                        pygame.time.wait(10)  # Debounce delay
             elif event.type == pygame.JOYBUTTONUP:
                 button_name = self.button_index.get(event.button)
                 if button_name:
@@ -96,50 +97,58 @@ class Controller:
                         sig.emit()
 
             if event.type == pygame.JOYAXISMOTION:
+                axis = event.axis
+
                 # left stick
                 Lstick_lr = self.controller.get_axis(0)
                 Lstick_ud = self.controller.get_axis(1)
                 
-                if Lstick_lr <= -self.threshold:
-                    self.stick_move['Lstick_left'].emit()
-                elif Lstick_lr >= self.threshold:
-                    self.stick_move['Lstick_right'].emit()
-                else:
-                    self.stick_move['Lstick_lr_center'].emit()
-                
-                if Lstick_ud <= -self.threshold:
-                    self.stick_move['Lstick_up'].emit()
-                elif Lstick_ud >= self.threshold:
-                    self.stick_move['Lstick_down'].emit()
-                else:
-                    self.stick_move['Lstick_ud_center'].emit()
+                if axis in [0, 1]: 
+                    if Lstick_lr <= -self.threshold:
+                        self.stick_move['Lstick_left'].emit()
+                    elif Lstick_lr >= self.threshold:
+                        self.stick_move['Lstick_right'].emit()
+                    else:
+                        self.stick_move['Lstick_lr_center'].emit()
+                    
+                    if Lstick_ud <= -self.threshold:
+                        self.stick_move['Lstick_up'].emit()
+                    elif Lstick_ud >= self.threshold:
+                        self.stick_move['Lstick_down'].emit()
+                    else:
+                        self.stick_move['Lstick_ud_center'].emit()
 
                 # right stick
                 Rstick_lr = self.controller.get_axis(2)
                 Rstick_ud = self.controller.get_axis(3)
-                
-                if Rstick_lr <= -self.threshold:
-                    self.stick_move['Rstick_left'].emit()
-                elif Rstick_lr >= self.threshold:
-                    self.stick_move['Rstick_right'].emit()
-                else:
-                    self.stick_move['Rstick_lr_center'].emit()
-                
-                if Rstick_ud <= -self.threshold:
-                    self.stick_move['Rstick_up'].emit()
-                elif Rstick_ud >= self.threshold:
-                    self.stick_move['Rstick_down'].emit()
-                else:
-                    self.stick_move['Rstick_ud_center'].emit()
+
+                if axis in [2, 3]:
+                    if Rstick_lr <= -self.threshold:
+                        self.stick_move['Rstick_left'].emit()
+                    elif Rstick_lr >= self.threshold:
+                        self.stick_move['Rstick_right'].emit()
+                    else:
+                        self.stick_move['Rstick_lr_center'].emit()
+                    
+                    if Rstick_ud <= -self.threshold:
+                        self.stick_move['Rstick_up'].emit()
+                    elif Rstick_ud >= self.threshold:
+                        self.stick_move['Rstick_down'].emit()
+                    else:
+                        self.stick_move['Rstick_ud_center'].emit()
                 
                 # trigger
                 LT = self.controller.get_axis(4)
                 RT = self.controller.get_axis(5)
-                if LT >= self.threshold:
-                    self.stick_move['LT_pressed'].emit()
-                else:
-                    self.stick_move['LT_released'].emit()
-                if RT >= self.threshold:
-                    self.stick_move['RT_pressed'].emit()
-                else:
-                    self.stick_move['RT_released'].emit()
+
+                if axis == 4:
+                    if LT >= self.threshold:
+                        self.stick_move['LT_pressed'].emit()
+                    else:
+                        self.stick_move['LT_released'].emit()
+                if axis == 5:
+                    if RT >= self.threshold:
+                        self.stick_move['RT_pressed'].emit()
+                    else:
+                        self.stick_move['RT_released'].emit()
+                
